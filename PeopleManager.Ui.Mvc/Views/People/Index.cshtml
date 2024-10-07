@@ -1,1 +1,8 @@
-﻿<h1>This is where we manage our people</h1>
+﻿@model IList<Person>
+
+<h1>This is where we manage our people</h1>
+
+@foreach (var person in Model)
+{
+    <p>@person.FirstName @person.LastName</p>
+}

@@ -6,9 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//var connectionString = builder.Configuration.GetConnectionString(nameof(PeopleManagerDbContext));
+
 builder.Services.AddDbContext<PeopleManagerDbContext>(options =>
 {
     options.UseInMemoryDatabase(nameof(PeopleManagerDbContext));
+    //options.UseSqlServer(connectionString);
 });
 
 var app = builder.Build();
@@ -24,7 +27,10 @@ else
 {
     using var scope = app.Services.CreateScope();
     var database = scope.ServiceProvider.GetRequiredService<PeopleManagerDbContext>();
-    database.Seed();
+    if (database.Database.IsInMemory())
+    {
+        database.Seed();
+    }
 }
 
 app.UseHttpsRedirection();

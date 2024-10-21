@@ -1,14 +1,16 @@
-﻿using PeopleManager.Ui.Mvc.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PeopleManager.Ui.Mvc.Models;
 
 namespace PeopleManager.Ui.Mvc.Core
 {
-    public class Database
+    public class PeopleManagerDbContext(DbContextOptions<PeopleManagerDbContext> options) : DbContext(options)
     {
-        public IList<Person> People { get; set; } = new List<Person>();
+        public DbSet<Person> People => Set<Person>();
 
         public void Seed()
         {
-            People = new List<Person>
+            
+            var people = new List<Person>
             {
                 new Person { FirstName = "John", LastName = "Doe", Email = "john.doe@example.com" },
                 new Person { FirstName = "Jane", LastName = "Smith" }, // Email is omitted
@@ -21,6 +23,10 @@ namespace PeopleManager.Ui.Mvc.Core
                 new Person { FirstName = "Daniel", LastName = "Anderson", Email = "daniel.anderson@example.com" },
                 new Person { FirstName = "Olivia", LastName = "Taylor" } // Email is omitted
             };
+
+            People.AddRange(people);
+
+            SaveChanges();
         }
     }
 }

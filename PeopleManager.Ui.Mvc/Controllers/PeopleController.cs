@@ -7,16 +7,16 @@ namespace PeopleManager.Ui.Mvc.Controllers
     public class PeopleController : Controller
     {
 
-        private readonly Database _database;
+        private readonly PeopleManagerDbContext _peopleManagerDbContext;
 
-        public PeopleController(Database database)
+        public PeopleController(PeopleManagerDbContext peopleManagerDbContext)
         {
-            _database = database;
+            _peopleManagerDbContext = peopleManagerDbContext;
         }
 
         public IActionResult Index()
         {
-            var people = _database.People;
+            var people = _peopleManagerDbContext.People.ToList();
 
             return View(people);
         }

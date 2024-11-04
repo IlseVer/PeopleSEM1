@@ -38,5 +38,37 @@ namespace PeopleManager.Ui.Mvc.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Edit([FromRoute]int id)
+        {
+            var person = _peopleManagerDbContext.People.FirstOrDefault(p => p.Id == id);
+            if (person is null)
+            {
+                return RedirectToAction("Index");
+            }
+            
+            return View(person);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute]int id, [FromForm]Person person)
+        {
+            var dbPerson = _peopleManagerDbContext.People.FirstOrDefault(p => p.Id == id);
+            if (dbPerson is null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            dbPerson.FirstName = person.FirstName;
+            dbPerson.LastName = person.LastName;
+            dbPerson.Email = person.Email;
+
+            _peopleManagerDbContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }
+

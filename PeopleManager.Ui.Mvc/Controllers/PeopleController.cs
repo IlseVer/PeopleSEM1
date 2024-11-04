@@ -14,11 +14,29 @@ namespace PeopleManager.Ui.Mvc.Controllers
             _peopleManagerDbContext = peopleManagerDbContext;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var people = _peopleManagerDbContext.People.ToList();
 
             return View(people);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Person person)
+        {
+            _peopleManagerDbContext.People.Add(person);
+
+            _peopleManagerDbContext.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

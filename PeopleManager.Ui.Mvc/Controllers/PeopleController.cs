@@ -86,11 +86,14 @@ namespace PeopleManager.Ui.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed([FromRoute] int id)
         {
-            var person = _peopleManagerDbContext.People.FirstOrDefault(p => p.Id == id);
-            if (person is null)
+            var person = new Person
             {
-                return RedirectToAction("Index");
-            }
+                Id = id,
+                FirstName = string.Empty,
+                LastName = string.Empty
+            };
+
+            _peopleManagerDbContext.People.Attach(person);
 
             _peopleManagerDbContext.People.Remove(person);
 

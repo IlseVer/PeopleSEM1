@@ -9,6 +9,11 @@
         <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
 
         <button type="button"
+                data-id="@Model.Id"
+                data-first-name="@Model.FirstName"
+                data-last-name="@Model.LastName"
+                data-email="@Model.Email"
+                data-mode="delete"
                 data-bs-toggle="modal"
                 data-bs-target="#deleteModal"
                 class="btn btn-danger">

@@ -83,9 +83,9 @@ namespace PeopleManager.Ui.Mvc.Controllers
         }
 
         [HttpPost]
-        [Route("People/Delete/{id:int}")]
+        [Route("People/Delete/{id:int?}")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed([FromRoute] int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             var person = new Person
             {

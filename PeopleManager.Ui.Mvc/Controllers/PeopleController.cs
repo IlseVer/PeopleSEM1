@@ -32,6 +32,11 @@ namespace PeopleManager.Ui.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Person person)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(person);
+            }
+
             _peopleManagerDbContext.People.Add(person);
 
             _peopleManagerDbContext.SaveChanges();
@@ -55,6 +60,11 @@ namespace PeopleManager.Ui.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute]int id, [FromForm]Person person)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(person);
+            }
+
             var dbPerson = _peopleManagerDbContext.People.FirstOrDefault(p => p.Id == id);
             if (dbPerson is null)
             {

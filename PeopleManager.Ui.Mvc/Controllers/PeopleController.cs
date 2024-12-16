@@ -1,23 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PeopleManager.Model;
-using PeopleManager.Repository;
+using PeopleManager.Services;
 
 namespace PeopleManager.Ui.Mvc.Controllers
 {
     public class PeopleController : Controller
     {
 
-        private readonly PeopleManagerDbContext _peopleManagerDbContext;
+        private readonly PersonService _personService;
 
-        public PeopleController(PeopleManagerDbContext peopleManagerDbContext)
+        public PeopleController(PersonService personService)
         {
-            _peopleManagerDbContext = peopleManagerDbContext;
+            _personService = personService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var people = _peopleManagerDbContext.People.ToList();
+            var people = _personService.Find();
 
             return View(people);
         }
@@ -37,9 +37,7 @@ namespace PeopleManager.Ui.Mvc.Controllers
                 return View(person);
             }
 
-            _peopleManagerDbContext.People.Add(person);
-
-            _peopleManagerDbContext.SaveChanges();
+            _personService.Create(person);
 
             return RedirectToAction("Index");
         }
@@ -47,7 +45,7 @@ namespace PeopleManager.Ui.Mvc.Controllers
         [HttpGet]
         public IActionResult Edit([FromRoute]int id)
         {
-            var person = _peopleManagerDbContext.People.FirstOrDefault(p => p.Id == id);
+            var person = _personService.Get(id);
             if (person is null)
             {
                 return RedirectToAction("Index");
@@ -65,25 +63,15 @@ namespace PeopleManager.Ui.Mvc.Controllers
                 return View(person);
             }
 
-            var dbPerson = _peopleManagerDbContext.People.FirstOrDefault(p => p.Id == id);
-            if (dbPerson is null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            dbPerson.FirstName = person.FirstName;
-            dbPerson.LastName = person.LastName;
-            dbPerson.Email = person.Email;
-
-            _peopleManagerDbContext.SaveChanges();
-
+            _personService.Update(id, person);
+            
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Delete([FromRoute] int id)
         {
-            var person = _peopleManagerDbContext.People.FirstOrDefault(p => p.Id == id);
+            var person = _personService.Get(id);
             if (person is null)
             {
                 return RedirectToAction("Index");
@@ -97,18 +85,7 @@ namespace PeopleManager.Ui.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var person = new Person
-            {
-                Id = id,
-                FirstName = string.Empty,
-                LastName = string.Empty
-            };
-
-            _peopleManagerDbContext.People.Attach(person);
-
-            _peopleManagerDbContext.People.Remove(person);
-
-            _peopleManagerDbContext.SaveChanges();
+            _personService.Delete(id);
 
             return RedirectToAction("Index");
         }

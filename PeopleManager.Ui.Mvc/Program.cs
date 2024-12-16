@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PeopleManager.Repository;
+using PeopleManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<PeopleManagerDbContext>(options =>
     options.UseInMemoryDatabase(nameof(PeopleManagerDbContext));
     //options.UseSqlServer(connectionString);
 });
+
+builder.Services.AddScoped<PersonService>();
 
 var app = builder.Build();
 

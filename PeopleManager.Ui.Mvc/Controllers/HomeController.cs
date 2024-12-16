@@ -1,22 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using PeopleManager.Ui.Mvc.Models;
 using System.Diagnostics;
-using PeopleManager.Repository;
+using PeopleManager.Services;
 
 namespace PeopleManager.Ui.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly PeopleManagerDbContext _peopleManagerDbContext;
+        private readonly PersonService _personService;
 
-        public HomeController(PeopleManagerDbContext peopleManagerDbContext)
+        public HomeController(PersonService personService)
         {
-            _peopleManagerDbContext = peopleManagerDbContext;
+            _personService = personService;
         }
 
         public IActionResult Index()
         {
-            var people = _peopleManagerDbContext.People.ToList();
+            var people = _personService.Find();
             return View(people);
         }
 

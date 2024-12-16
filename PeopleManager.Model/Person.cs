@@ -20,5 +20,9 @@ namespace PeopleManager.Model
         [DisplayName("E-mail address")]
         [EmailAddress]
         public string? Email { get; set; }
+
+        [DisplayName("Function")]
+        public int? FunctionId { get; set; }
+        public Function Function { get; set; } = null!;
     }
 }

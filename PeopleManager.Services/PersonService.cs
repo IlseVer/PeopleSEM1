@@ -1,4 +1,5 @@
-﻿using PeopleManager.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using PeopleManager.Model;
 using PeopleManager.Repository;
 
 namespace PeopleManager.Services
@@ -15,7 +16,9 @@ namespace PeopleManager.Services
         //Read (all)
         public IList<Person> Find()
         {
-            return _dbContext.People.ToList();
+            return _dbContext.People
+                .Include(p => p.Function)
+                .ToList();
         }
 
         //Read (one)

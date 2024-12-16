@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PeopleManager.Ui.Mvc.Models;
 using System.Diagnostics;
-using PeopleManager.Ui.Mvc.Core;
+using PeopleManager.Repository;
 
 namespace PeopleManager.Ui.Mvc.Controllers
 {

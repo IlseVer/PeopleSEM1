@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PeopleManager.Model;
 
-namespace PeopleManager.Ui.Mvc.Core
+namespace PeopleManager.Repository
 {
     public class PeopleManagerDbContext(DbContextOptions<PeopleManagerDbContext> options) : DbContext(options)
     {

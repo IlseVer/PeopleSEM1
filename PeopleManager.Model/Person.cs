@@ -23,6 +23,6 @@ namespace PeopleManager.Model
 
         [DisplayName("Function")]
         public int? FunctionId { get; set; }
-        public Function Function { get; set; } = null!;
+        public Function? Function { get; set; } = null!;
     }
 }
